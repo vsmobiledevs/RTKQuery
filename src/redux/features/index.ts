@@ -1,9 +1,9 @@
 import {combineReducers} from 'redux';
+import { PostApi } from '../api/postApi';
 import authSlice from './authSlice';
-import {authApi} from '../api/authApi';
 
 const rootReducer = combineReducers({
-  [authApi.reducerPath]: authApi.reducer,
+  [PostApi.reducerPath]: PostApi.reducer,
   authSlice,
 });
 

@@ -1,50 +1,76 @@
-import {View, Text, Button} from 'react-native';
+import {View, Text, Button, ActivityIndicator, ScrollView} from 'react-native';
 import React, {FC, useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from '../redux/store';
 import {login, logout} from '../redux/features/authSlice';
-import {useGetAllPostsQuery} from '../redux/api/authApi';
+import {useCreatePostMutation, useGetAllPostsQuery} from '../redux/api/postApi';
 
-type TestScreen = {
-  loading: boolean;
-};
 
-const TestScreen: FC<TestScreen> = ({loading}) => {
-  const dispatch = useAppDispatch();
-  const {user, posts} = useAppSelector(state => state.authSlice);
-  // const data = useAppSelector(state => state.postApi);
 
-  const {isLoading, isError, error, data} = useGetAllPostsQuery({
-    page: 1,
-    token: user?.token,
-  });
-  // console.log('Posts: =>  ', posts);
+const TestScreen: FC = () => {
+
+  const {user} = useAppSelector(state => state.authSlice);
+ 
+
+  const {isLoading, isError, error, data} = useGetAllPostsQuery();
+  const [createPost,res] = useCreatePostMutation()
+
   useEffect(() => {
     if (isError) {
       console.log('error: =>', error);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading]);
 
+  const CreatePost=()=>{
+    let obj={
+      title:'testing Post',
+      body:'This is the testing post',
+      userId:26
+    }
+    createPost(obj)
+  }
+
+
+
+  if(isLoading){
+    return(
+      <View style={{flex:1,justifyContent:'center'}}>
+    <ActivityIndicator color={'white'} size="large"/>
+    </View>
+  )}
   return (
-    <View>
+    <View style={{justifyContent:'center'}}>
       <Text>App</Text>
       <Button
-        title="Login"
-        onPress={() =>
-          dispatch(
-            login({
-              _id: '1',
-              name: 'Muhammad Haris',
-              email: 'haris@gmail.com',
-              active: true,
-              verified: true,
-              token:
-                'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJleHAiOjE2Nzc0ODUxMDB9.7V_PuPiwSYfGaJ8mrfD_hi2EYpW15kKTzbGgl-YKJaw',
-            }),
-          )
-        }
+        title="Create a Post"
+        onPress={CreatePost}
       />
-      <Button title="LogOut" onPress={() => dispatch(logout())} />
+ <Text style={{color:'white',marginTop:'5%'}}>
+          length of the posts:->  {data?.length}
+        </Text>
+
+         <Text style={{color:'white',marginTop:'5%'}}>
+          All Posts Data:
+        </Text>
+      <View style={{width:'100%',height:'35%',marginTop:'5%'}}>
+        <ScrollView>
+        <Text style={{color:'white'}}>
+          {JSON.stringify(data)}
+        </Text>
+        </ScrollView>
+
+      </View>
+      <Text style={{color:'white',marginTop:'5%'}}>
+          Create Post Response:
+        </Text>
+      <View style={{width:'100%',height:'35%',marginTop:'5%'}}>
+        <ScrollView>
+        <Text style={{color:'white'}}>
+          {JSON.stringify(res)}
+        </Text>
+        </ScrollView>
+
+      </View>
+    
     </View>
   );
 };

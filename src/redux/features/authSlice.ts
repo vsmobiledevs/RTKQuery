@@ -1,23 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-export interface IUser {
-  _id: string;
-  name: string;
-  email: string;
-  photo: string;
-  role: string;
-  provider?: string;
-  active?: boolean;
-  verified?: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-  token: string;
-}
 
-interface AuthState {
-  user?: IUser | null;
-  posts?: [] | null;
-}
 
 const initialState = {
   user: null,

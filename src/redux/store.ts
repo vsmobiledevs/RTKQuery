@@ -2,10 +2,11 @@ import {configureStore} from '@reduxjs/toolkit';
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {authApi} from './api/authApi';
+
 
 import {persistReducer, persistStore} from 'redux-persist';
 import rootReducer from './features';
+import { PostApi } from './api/postApi';
 
 const persistConfig = {
   key: 'root',
@@ -18,7 +19,7 @@ const store = configureStore({
   reducer: persistedReducer,
   devTools: true,
   middleware: getDefaultMiddleware =>
-    getDefaultMiddleware({}).concat([authApi.middleware]),
+    getDefaultMiddleware({}).concat([PostApi.middleware]),
 });
 
 const persistor = persistStore(store);
