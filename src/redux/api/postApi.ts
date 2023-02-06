@@ -32,12 +32,29 @@ export const PostApi = createApi({
           body:data
      }),
      invalidatesTags:['postList']
-    })
-    
+    }),
+    updatePost:builder.mutation({
+     query:(data)=>({
+          url: `posts`,
+          method: 'UPDATE',
+          body:data
+     }),
+     invalidatesTags:['postList']
+    }),
+    deletePost:builder.mutation({
+     query:(data)=>({
+          url: `posts`,
+          method: 'DELETE',
+          body:data
+     }),
+     invalidatesTags:['postList']
+    }),
   }),
 });
 
 export const {
 useCreatePostMutation,
 useGetAllPostsQuery,
+useDeletePostMutation,
+useUpdatePostMutation,
 } = PostApi;

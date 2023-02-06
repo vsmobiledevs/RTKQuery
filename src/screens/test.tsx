@@ -2,17 +2,18 @@ import {View, Text, Button, ActivityIndicator, ScrollView} from 'react-native';
 import React, {FC, useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from '../redux/store';
 import {login, logout} from '../redux/features/authSlice';
-import {useCreatePostMutation, useGetAllPostsQuery} from '../redux/api/postApi';
+import {useCreatePostMutation, useDeletePostMutation, useGetAllPostsQuery, useUpdatePostMutation} from '../redux/api/postApi';
 
 
 
 const TestScreen: FC = () => {
 
   const {user} = useAppSelector(state => state.authSlice);
- 
-
   const {isLoading, isError, error, data} = useGetAllPostsQuery();
   const [createPost,res] = useCreatePostMutation()
+  const [updatePost,response] = useUpdatePostMutation();
+  const [deletePost] = useDeletePostMutation()
+
 
   useEffect(() => {
     if (isError) {

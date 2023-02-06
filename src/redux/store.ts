@@ -18,6 +18,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 const store = configureStore({
   reducer: persistedReducer,
   devTools: true,
+  
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({}).concat([PostApi.middleware]),
 });
